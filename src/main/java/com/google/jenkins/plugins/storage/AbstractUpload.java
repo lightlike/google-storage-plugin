@@ -97,7 +97,10 @@ public abstract class AbstractUpload implements Describable<AbstractUpload>, Ext
                 {"css", "text/css"},
                 {"js", "application/javascript"},
                 {"svg", "image/svg+xml"},
-                {"woff2", "font/woff2"}
+                {"woff2", "font/woff2"},
+                {"apk", "application/vnd.android.package-archive"},
+                {"aab", "application/x-authorware-bin"},
+                {"ipa", "application/octet-stream"}
             })
             .collect(Collectors.collectingAndThen(
                     Collectors.toMap(data -> data[0], data -> data[1]), Collections::<String, String>unmodifiableMap));
