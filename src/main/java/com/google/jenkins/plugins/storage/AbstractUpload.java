@@ -99,8 +99,7 @@ public abstract class AbstractUpload implements Describable<AbstractUpload>, Ext
                 {"svg", "image/svg+xml"},
                 {"woff2", "font/woff2"},
                 {"apk", "application/vnd.android.package-archive"},
-                {"aab", "application/x-authorware-bin"},
-                {"ipa", "application/octet-stream"}
+                {"aab", "application/x-authorware-bin"}
             })
             .collect(Collectors.collectingAndThen(
                     Collectors.toMap(data -> data[0], data -> data[1]), Collections::<String, String>unmodifiableMap));
@@ -519,9 +518,12 @@ public abstract class AbstractUpload implements Describable<AbstractUpload>, Ext
         String extension = Files.getFileExtension(filename);
         if (CONTENT_TYPES.containsKey(extension)) {
             return CONTENT_TYPES.get(extension);
-        } else {
-            return URLConnection.guessContentTypeFromName(filename);
         }
+        String contentType = URLConnection.guessContentTypeFromName(filename);
+        if (contentType != null && !contentType.isEmpty()) {
+            return contentType;
+        }
+        return "application/octet-stream";
     }
 
     /**
